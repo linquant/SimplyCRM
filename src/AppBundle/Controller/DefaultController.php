@@ -39,4 +39,16 @@ class DefaultController extends Controller
         return $this->render('customer.html.twig' ,array('customer_liste' => $customer_liste));
 
     }
+
+    /**
+     * @Route("/client/{id}", name="detailCustomer" , requirements={"id"="\d+"})
+     */
+    public function detailCustomerAction($id){
+
+        $customer = $this->getDoctrine()->getRepository(Customer::class)->findBy(array('id' => $id));
+
+
+        return $this->render('detailCustomer.html.twig', array('customer' => $customer));
+
+    }
 }

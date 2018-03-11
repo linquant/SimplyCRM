@@ -4,27 +4,19 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1> Liste des clients</h1>
 
+                <h1> Détail  du client                     {{ customer[0].nom }}
+                </h1>
 
+                <p> Nom : {{ customer[0].nom }} </p>
+                <p> Prénom : {{ customer[0].prenom }} </p>
+                <p> Societé : {{ customer[0].societe }} </p>
+                <p> adresse : {{ customer[0].adresse }} </p>
+                <p> Fixe : {{ customer[0].numfixe }} </p>
+                <p> Portable : {{ customer[0].numport }} </p>
+                <p> Mail : {{ customer[0].mail }} </p>
 
-
-
-                <table>
-
-                        {% for customer in customer_liste  %}
-                    <tr>
-
-                        <th>{{ customer.nom }}</th>
-                        <th>{{ customer.prenom }}</th>
-                        <th>{{ customer.societe }}</th>
-                        <th><a href=" {{ path('detailCustomer',{'id':  customer.id }) }} ">Détails</a></th>
-
-                    </tr>
-
-                        {% endfor %}
-
-                </table>
+                
 
             </div>
 
