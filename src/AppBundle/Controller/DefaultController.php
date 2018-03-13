@@ -5,7 +5,12 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+
 use AppBundle\Entity\Customer;
+use AppBundle\Repository\CustomerRepository;
 
 class DefaultController extends Controller
 {
@@ -23,20 +28,70 @@ class DefaultController extends Controller
     /**
      * @Route("/add/client", name="addCustomer")
      */
-    public function addCustomerAction(){
+    public function addCustomerAction(Request $request){
 
-        return $this->render('addCustomer.html.twig');
+        $customer = new Customer();
+
+        $form = $this->createFormBuilder($customer)
+            ->add('nom')
+            ->add('prenom')
+            ->add('societe')
+            ->add('adresse')
+            ->add('numfixe')
+            ->add('numport')
+            ->add('mail')
+            ->add('Enregistrer', SubmitType::class, array('label' => 'Enregistrer'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $customer = $form->getData();
+
+             $entityManager = $this->getDoctrine()->getManager();
+             $entityManager->persist($customer);
+             $entityManager->flush();
+
+
+        }
+
+        return $this->render('addCustomer.html.twig', array(
+            'form' => $form->createView()));
     }
 
     /**
-     * @Route("/client", name="Customer")
+     * @Route("/list/client/{page}", name="Customer" , requirements={"page"="\d+"} , defaults={"page": 1},)
      */
-    public function customerAction(){
-
-        $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->findall();
+    public function customerAction($page){
 
 
-        return $this->render('customer.html.twig' ,array('customer_liste' => $customer_liste));
+       //GEstion de la pagination
+
+        //TODO Query builder pour connaitre le nombre exact avec un query builder
+        $nbreCustomer = 123;
+        $nbreParPage = 10;
+
+        $nbrePage = ceil($nbreCustomer/$nbreParPage);
+
+        $page =  (($page == 0 ) ? 1 : $page);
+        $page =  (($page > $nbrePage ) ? $nbrePage : $page);
+
+        $offset = ($page-1)*$nbreParPage;
+
+        //GEstion pagination Fin
+
+
+       $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->pagination($nbrePage,$offset);
+
+
+
+        return $this->render('customer.html.twig' ,array(
+                'customer_liste' => $customer_liste,
+                'NbreDePage' => $nbrePage,
+
+
+        ));
 
     }
 

@@ -25,7 +25,12 @@
                         {% endfor %}
 
                 </table>
+                <br>
+                <p>Index de pagination</p>
 
+                {% for i in 1..NbreDePage %}
+                    <a href=" {{ path('Customer',{'page':  i }) }} "> {{ i }}</a>
+                {% endfor %}
             </div>
 
 

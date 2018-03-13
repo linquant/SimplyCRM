@@ -10,4 +10,27 @@ namespace AppBundle\Repository;
  */
 class CustomerRepository extends \Doctrine\ORM\EntityRepository
 {
+
+
+
+
+
+
+        public function pagination($limit = 10, $offset)
+        {
+            // automatically knows to select Products
+            // the "p" is an alias you'll use in the rest of the query
+            $qb = $this->createQueryBuilder('c')
+                ->setFirstResult( $offset )
+                ->setMaxResults( $limit )
+                ->getQuery();
+
+            return $qb->execute();
+
+            // to get just one result:
+            // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+        }
+
+
+
 }
