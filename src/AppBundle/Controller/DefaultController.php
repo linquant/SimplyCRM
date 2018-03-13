@@ -32,15 +32,14 @@ class DefaultController extends Controller
 
         $customer = new Customer();
 
-        if (!is_null($id)){
 
-            print_r('$id=');
-            print_r($id);
+        //Si l'id existe, on charge le client dans l'objet
+        if (!is_null($id)){
 
             $repository = $this->getDoctrine()->getRepository(Customer::class);
             $customer = $repository->find($id);
 
-            print_r($customer);
+
         }
 
 
