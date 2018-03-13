@@ -12,11 +12,20 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
 {
 
 
+            public function nbreClient()
+            {
+                $count = $this->createQueryBuilder('c')
+                    ->select('COUNT(c)')
+                    ->getQuery()
+                    ->getSingleScalarResult();
+
+              ;
+                return $count;
+
+            }
 
 
-
-
-        public function pagination($limit = 10, $offset)
+    public function pagination($limit = 10, $offset)
         {
             // automatically knows to select Products
             // the "p" is an alias you'll use in the rest of the query

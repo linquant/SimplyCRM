@@ -20,7 +20,10 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('home.html.twig');
+
+        $count = $this->getDoctrine()->getRepository(Customer::class)->nbreClient();
+
+        return $this->render('home.html.twig', array ( 'nbreClient' => $count));
     }
 
     /**
@@ -63,7 +66,9 @@ class DefaultController extends Controller
              $entityManager->persist($customer);
              $entityManager->flush();
 
-
+            return $this->redirectToRoute(
+               'Customer'
+            );
         }
 
         return $this->render('addCustomer.html.twig', array(
@@ -123,7 +128,7 @@ class DefaultController extends Controller
     public function deleteCustomerAction($id){
 
 
-
+        //TODO mettre une alerte pour l'utilisaaateur // message = suppresion est définitive
 
         $entityManager = $this->getDoctrine()->getManager();
         $customer = $entityManager->getRepository(Customer::class)->find($id);
