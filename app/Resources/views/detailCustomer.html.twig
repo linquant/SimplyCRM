@@ -10,7 +10,7 @@
 
 
 
-
+                {% if customer[0] is defined %}
 
                 <div class="card   m-2" >
                     <div class="card-header">
@@ -26,9 +26,15 @@
                         <p class="card-text"> Portable : {{ customer[0].numport }}</p>
                         <p class="card-text"> Mail : <a href="mailto:{{ customer[0].mail }} ">{{ customer[0].mail }}</a> </p>
                         <a class="btn btn-outline-primary" href=" {{ path('addCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Modifier le client</a>
+                        <a class="btn btn-danger" href=" {{ path('deleteCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Supprimer</a>
                     </div>
                 </div>
+            {% else %}
+                <div class="col-6 mx-auto ">
+                <p class="text-center text-danger font-weight-bold font-weight-bold bg-warning p-2 border border-danger">Le client n'existe pas !!!</p>
 
+                </div>
+            {% endif %}
 
             </div>
 

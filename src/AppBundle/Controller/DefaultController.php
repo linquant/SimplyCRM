@@ -20,9 +20,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+        return $this->render('home.html.twig');
     }
 
     /**
@@ -117,5 +115,28 @@ class DefaultController extends Controller
 
         return $this->render('detailCustomer.html.twig', array('customer' => $customer));
 
+    }
+
+    /**
+     * @Route("/delete/client/{id}", name="deleteCustomer" , requirements={"id"="\d+"})
+     */
+    public function deleteCustomerAction($id){
+
+
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $customer = $entityManager->getRepository(Customer::class)->find($id);
+
+        if (!$customer) {
+            throw $this->createNotFoundException(
+                'No customer found for id '.$id
+            );
+        }
+
+        $entityManager->remove($customer);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('Customer');
     }
 }
