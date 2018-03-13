@@ -84,23 +84,23 @@ class DefaultController extends Controller
         $nbreCustomer = 123;
         $nbreParPage = 10;
 
-        $nbrePage = ceil($nbreCustomer/$nbreParPage);
+        $nbrePagePagination = ceil($nbreCustomer/$nbreParPage);
 
         $page =  (($page == 0 ) ? 1 : $page);
-        $page =  (($page > $nbrePage ) ? $nbrePage : $page);
+        $page =  (($page > $nbrePagePagination ) ? $nbrePagePagination : $page);
 
         $offset = ($page-1)*$nbreParPage;
 
         //GEstion pagination Fin
 
 
-       $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->pagination($nbrePage,$offset);
+       $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->pagination($nbreParPage,$offset);
 
 
 
         return $this->render('customer.html.twig' ,array(
                 'customer_liste' => $customer_liste,
-                'NbreDePage' => $nbrePage,
+                'NbreDePage' => $nbrePagePagination,
 
 
         ));
