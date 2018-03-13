@@ -26,11 +26,24 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/add/client", name="addCustomer")
+     * @Route("/add/client/{id}", name="addCustomer" , requirements={"page"="\d+"})
      */
-    public function addCustomerAction(Request $request){
+    public function addCustomerAction(Request $request,$id = null){
 
         $customer = new Customer();
+
+        if (!is_null($id)){
+
+            print_r('$id=');
+            print_r($id);
+
+            $repository = $this->getDoctrine()->getRepository(Customer::class);
+            $customer = $repository->find($id);
+
+            print_r($customer);
+        }
+
+
 
         $form = $this->createFormBuilder($customer)
             ->add('nom')
