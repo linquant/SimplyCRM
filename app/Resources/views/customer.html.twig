@@ -4,13 +4,13 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1> Liste des clients</h1>
+                <h1 class="text-center"> Liste des clients</h1>
 
+<div class="col-12 text-right">
+            <a  class ="btn btn-outline-primary" href=" {{ path('addCustomer') }} ">Ajouter Client</a>
+</div>
 
-            <a href=" {{ path('addCustomer') }} ">Ajouter Client</a>
-
-
-                <table>
+                <table class="table m-5">
 
                         {% for customer in customer_liste  %}
                     <tr>
@@ -26,11 +26,22 @@
 
                 </table>
                 <br>
-                <p>Index de pagination</p>
 
-                {% for i in 1..NbreDePage %}
-                    <a href=" {{ path('Customer',{'page':  i }) }} "> {{ i }}</a>
-                {% endfor %}
+                <div class="row">
+
+                    <div class="col-12 text-center">
+                        <p>Pages</p>
+
+                    </div>
+
+                    <div class="col-12 text-center">
+                    {% for i in 1..NbreDePage %}
+                        <a href=" {{ path('Customer',{'page':  i }) }} "> {{ i }}</a>
+                    {% endfor %}
+
+                    </div>
+                </div>
+
             </div>
 
 

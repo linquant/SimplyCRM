@@ -4,16 +4,27 @@
     <div id="wrapper">
         <div id="container">
             <div id="welcome">
-                <h1>Ajouter des clients</h1>
+
             </div>
 
-            {{ form_start(form) }}
-            {{ form_widget(form) }}
-            {{ form_end(form) }}
 
 
-            <a href=" {{ path('Customer') }}">Liste des clients</a>
-            
+            <div class="card   m-2" >
+                <div class="card-header">
+                    <h5 class="card-title"> Ajouter un client </h5>
+                </div>
+                <div class="card-body">
+
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+
+            <div class="col-12 text-center">
+            <a class =" btn btn-outline-primary mt-2" href=" {{ path('Customer') }}">Liste des clients</a>
+            </div>
         </div>
     </div>
 {% endblock %}

@@ -5,26 +5,36 @@
         <div id="container">
             <div id="welcome">
 
-                <h1> Détail  du client                     {{ customer[0].nom }}
-                </h1>
-
-                <p> Nom : {{ customer[0].nom }} </p>
-                <p> Prénom : {{ customer[0].prenom }} </p>
-                <p> Societé : {{ customer[0].societe }} </p>
-                <p> adresse : {{ customer[0].adresse }} </p>
-                <p> Fixe : {{ customer[0].numfixe }} </p>
-                <p> Portable : {{ customer[0].numport }} </p>
-                <p> Mail : {{ customer[0].mail }} </p>
-
-                <a href=" {{ path('addCustomer', { 'id' :  customer[0].id  }) }}"> Modifier le client</a>
 
 
+
+
+
+
+
+                <div class="card   m-2" >
+                    <div class="card-header">
+                        <h5 class="card-title"> Détail du client {{ customer[0].nom }} {{ customer[0].prenom }} </h5>
+                    </div>
+                    <div class="card-body">
+
+                        <p class="card-text"> Nom : {{ customer[0].nom }}</p>
+                        <p class="card-text"> Prénom : {{ customer[0].prenom }}</p>
+                        <p class="card-text"> Societe : {{ customer[0].societe }}</p>
+                        <p class="card-text"> Adresse : {{ customer[0].adresse }}</p>
+                        <p class="card-text"> Fixe : {{ customer[0].numfixe }}</p>
+                        <p class="card-text"> Portable : {{ customer[0].numport }}</p>
+                        <p class="card-text"> Mail : <a href="mailto:{{ customer[0].mail }} ">{{ customer[0].mail }}</a> </p>
+                        <a class="btn btn-outline-primary" href=" {{ path('addCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Modifier le client</a>
+                    </div>
+                </div>
 
 
             </div>
 
-            <a href="{{ path('Customer') }}">Retour à la liste</a>
-
+            <div class="col-12 text-center">
+                <a class="btn btn-outline-primary m-2" href="{{ path('Customer') }}">Retour à la liste</a>
+            </div>
         </div>
     </div>
 {% endblock %}

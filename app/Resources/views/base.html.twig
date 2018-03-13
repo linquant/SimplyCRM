@@ -12,6 +12,13 @@
     </head>
     <body>
 
+    {#Menu#}
+    {% block menu %}
+        {% include 'menu.twig.html' %}
+
+    {% endblock %}
+
+
         <div class="container-fluid">
         {% block body %}
 
