@@ -146,21 +146,6 @@ class DefaultController extends Controller
         return $this->redirectToRoute('Customer');
     }
 
-    /**
-     * @Route("/login", name="login")
-     */
-    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
-    {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('login.html.twig', array(
-            'last_username' => $lastUsername,
-            'error'         => $error,
-        ));
-    }
 
 }

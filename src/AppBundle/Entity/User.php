@@ -1,49 +1,62 @@
 <?php
-
-// src/AppBundle/Entity/User.php
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="app_users")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\Entity
+ * @UniqueEntity(fields="email", message="Email already taken")
+ * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User implements UserInterface, \Serializable
+class User implements UserInterface
 {
     /**
-     * @ORM\Column(type="integer")
      * @ORM\Id
+     * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=25, unique=true)
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-    private $password;
-
-    /**
-     * @ORM\Column(type="string", length=254, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
      */
-    private $isActive;
+    private $username;
 
-    public function __construct()
+    /**
+     * 
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
+
+    /**
+     * The below length depends on the "algorithm" you use for encoding
+     * the password, but this works well with bcrypt.
+     *
+     * @ORM\Column(type="string", length=64)
+     */
+    private $password;
+
+    // other properties and methods
+
+    public function getEmail()
     {
-        $this->isActive = true;
-        // may not be needed, see section on salt below
-        // $this->salt = md5(uniqid('', true));
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     public function getUsername()
@@ -51,11 +64,19 @@ class User implements UserInterface, \Serializable
         return $this->username;
     }
 
-    public function getSalt()
+    public function setUsername($username)
     {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
-        return null;
+        $this->username = $username;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     public function getPassword()
@@ -63,36 +84,23 @@ class User implements UserInterface, \Serializable
         return $this->password;
     }
 
-    public function getRoles()
+    public function setPassword($password)
     {
-        return array('ROLE_USER');
+        $this->password = $password;
     }
 
-    public function eraseCredentials()
+    public function getSalt()
     {
+        // The bcrypt and argon2i algorithms don't require a separate salt.
+        // You *may* need a real salt if you choose a different encoder.
+        return null;
     }
 
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
+    public function getRoles(){
 
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-        ) = unserialize($serialized);
+        return array("ROLE_USER");
     }
+    //public function getSalt(){}
+    
+    public function eraseCredentials(){}
 }
