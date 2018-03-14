@@ -5,9 +5,13 @@
     <div id="container">
 
 
-    <h1>Login</h1>
+    <h1 class="text-center">Login</h1>
 
 
+<div class="card mx-auto" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Connexion</h5>
+    
         {% if error %}
             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -25,8 +29,15 @@
                 <input type="hidden" name="_target_path" value="/account" />
             #}
 
-            <button type="submit">login</button>
+            <button class="btn btn-success mt-2 ml-4" type="submit">login</button>
         </form>
+
+
+
+
+  </div>
+</div>
+
 
 
     </div>
