@@ -11,11 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Entity\Customer;
 use AppBundle\Repository\CustomerRepository;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/simply", name="homepage")
      */
     public function indexAction(Request $request)
     {
@@ -27,7 +28,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/add/client/{id}", name="addCustomer" , requirements={"page"="\d+"})
+     * @Route("/simply/add/client/{id}", name="addCustomer" , requirements={"page"="\d+"})
      */
     public function addCustomerAction(Request $request,$id = null){
 
@@ -62,7 +63,7 @@ class DefaultController extends Controller
 
             $customer = $form->getData();
 
-             $entityManager = $this->getDoctrine()->getManager();
+             $entityManager = $this->getDoctrine()->getManager;
              $entityManager->persist($customer);
              $entityManager->flush();
 
@@ -76,7 +77,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/list/client/{page}", name="Customer" , requirements={"page"="\d+"} , defaults={"page": 1},)
+     * @Route("/simply/list/client/{page}", name="Customer" , requirements={"page"="\d+"} , defaults={"page": 1},)
      */
     public function customerAction($page){
 
@@ -111,7 +112,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/client/{id}", name="detailCustomer" , requirements={"id"="\d+"})
+     * @Route("/simply/client/{id}", name="detailCustomer" , requirements={"id"="\d+"})
      */
     public function detailCustomerAction($id){
 
@@ -123,7 +124,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/delete/client/{id}", name="deleteCustomer" , requirements={"id"="\d+"})
+     * @Route("/simply/delete/client/{id}", name="deleteCustomer" , requirements={"id"="\d+"})
      */
     public function deleteCustomerAction($id){
 
@@ -144,4 +145,22 @@ class DefaultController extends Controller
 
         return $this->redirectToRoute('Customer');
     }
+
+    /**
+     * @Route("/login", name="login")
+     */
+    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils)
+    {
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('login.html.twig', array(
+            'last_username' => $lastUsername,
+            'error'         => $error,
+        ));
+    }
+
 }

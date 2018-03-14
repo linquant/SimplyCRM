@@ -9,4 +9,10 @@
         <a class="nav-link" href=" {{ path('addCustomer') }}">Ajouter un client</a>
     </li>
 
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+       <li class="nav-item">
+        <a class="nav-link" href=" {{ path('logout') }}">Déconnexion</a>
+    </li>
+{% endif %}
+
 </ul>
