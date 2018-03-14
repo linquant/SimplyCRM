@@ -22,7 +22,7 @@ class DefaultController extends Controller
     {
         // replace this example code with whatever you need
 
-        $count = $this->getDoctrine()->getRepository(Customer::class)->nbreClient();
+        $count = $this->getDoctrine()->getRepository(Customer::class)->nbreClient($this->getUser()->getId());
 
         return $this->render('home.html.twig', array ( 'nbreClient' => $count));
     }
@@ -98,7 +98,7 @@ class DefaultController extends Controller
         //GEstion pagination Fin
 
 
-       $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->pagination($nbreParPage,$offset);
+       $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->pagination($nbreParPage,$offset,$this->getUser()->getId());
 
 
 

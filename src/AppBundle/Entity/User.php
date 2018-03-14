@@ -47,7 +47,19 @@ class User implements UserInterface
      */
     private $password;
 
+
+    
+     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="user")
+     */   
+    private $customer;
+
     // other properties and methods
+
+    public function getId(){
+
+            return $this->id;
+    }
 
     public function getEmail()
     {

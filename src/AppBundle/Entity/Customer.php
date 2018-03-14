@@ -21,6 +21,8 @@ class Customer
      */
     private $id;
 
+
+
     /**
      * @var string
      *
@@ -70,6 +72,12 @@ class Customer
      */
     private $mail;
 
+        /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="customer")
+     * @ORM\JoinColumn(nullable=true)
+     */
+
+    private $user;    
 
     /**
      * Get id
