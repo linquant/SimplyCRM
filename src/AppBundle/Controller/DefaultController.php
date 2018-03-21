@@ -88,9 +88,9 @@ class DefaultController extends Controller
 
        //GEstion de la pagination
 
-        //TODO Query builder pour connaitre le nombre exact avec un query builder
-        $nbreCustomer = 123;
-        $nbreParPage = 10;
+
+        $nbreCustomer = $this->getDoctrine()->getRepository(Customer::class)->nbreClient($this->getUser()->getId());
+        $nbreParPage = $this->getParameter('pagination_nbre_item');
 
         $nbrePagePagination = ceil($nbreCustomer/$nbreParPage);
 
