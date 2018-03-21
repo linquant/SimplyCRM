@@ -2,6 +2,10 @@ app:
     resource: '@AppBundle/Controller/'
     type: annotation
 
+homebis:
+    path: /
+    defaults: { _controller: AppBundle:default:index }
+
 
 logout:
     path: /logout

@@ -20,7 +20,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
+
+        if( !$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $this->redirectToRoute('login');
+        }
 
         $count = $this->getDoctrine()->getRepository(Customer::class)->nbreClient($this->getUser()->getId());
 
