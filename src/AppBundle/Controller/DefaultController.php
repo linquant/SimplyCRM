@@ -98,6 +98,7 @@ class DefaultController extends Controller
         $page =  (($page > $nbrePagePagination ) ? $nbrePagePagination : $page);
 
         $offset = ($page-1)*$nbreParPage;
+        $offset =  (($offset == -10) ? 10 : $offset);
 
         //GEstion pagination Fin
 
