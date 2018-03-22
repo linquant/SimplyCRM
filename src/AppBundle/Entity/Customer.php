@@ -21,7 +21,10 @@ class Customer
      */
     private $id;
 
-
+    /**
+    * @ORM\OneToMany(targetEntity="Task", mappedBy="Customer")
+    */
+    private $task;
 
     /**
      * @var string
