@@ -21,16 +21,16 @@ class TaskController extends Controller
      * @Route("/", name="task_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $tasks = $em->getRepository('AppBundle:Task')->findAll();
-
-        return $this->render('task/index.html.twig', array(
-            'tasks' => $tasks,
-        ));
-    }
+//    public function indexAction()
+//    {
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $tasks = $em->getRepository('AppBundle:Task')->findAll();
+//
+//        return $this->render('task/index.html.twig', array(
+//            'tasks' => $tasks,
+//        ));
+//    }
 
     /**
      * Creates a new task entity.
@@ -53,7 +53,7 @@ class TaskController extends Controller
             $em->persist($task);
             $em->flush();
 
-            return $this->redirectToRoute('task_show', array('id' => $task->getId()));
+            return $this->redirectToRoute('detailCustomer', array('id' => $id_customer));
         }
 
         return $this->render('task/new.html.twig', array(
@@ -81,7 +81,7 @@ class TaskController extends Controller
     /**
      * Displays a form to edit an existing task entity.
      *
-     * @Route("/{id}/edit", name="task_edit")
+     * @Route("/{id}/edit/", name="task_edit")
      * @Method({"GET", "POST"})
      */
     public function editAction(Request $request, Task $task)
@@ -93,13 +93,15 @@ class TaskController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('task_edit', array('id' => $task->getId()));
+            return $this->redirectToRoute('detailCustomer', array('id' => 1));
         }
+
 
         return $this->render('task/edit.html.twig', array(
             'task' => $task,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
+            'customer'=> $task->getCustomer()->getId(),
         ));
     }
 
@@ -109,7 +111,7 @@ class TaskController extends Controller
      * @Route("/{id}", name="task_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Task $task)
+    public function deleteAction(Request $request, Task $task )
     {
         $form = $this->createDeleteForm($task);
         $form->handleRequest($request);
@@ -120,7 +122,9 @@ class TaskController extends Controller
             $em->flush();
         }
 
-        return $this->redirectToRoute('task_index');
+
+        //redirige vers le customer détail avec en Paramétre son ID
+        return $this->redirectToRoute('detailCustomer', array('id' => $task->getCustomer()->getID()));
     }
 
     /**

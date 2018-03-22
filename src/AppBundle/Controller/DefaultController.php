@@ -72,13 +72,11 @@ class DefaultController extends Controller
 
             $customer = $form->getData();
 
-             $entityManager = $this->getDoctrine()->getManager;
+             $entityManager = $this->getDoctrine()->getManager();
              $entityManager->persist($customer);
              $entityManager->flush();
 
-            return $this->redirectToRoute(
-               'Customer'
-            );
+            return $this->redirectToRoute( 'detailCustomer', array('id' => $customer->getId()));
         }
 
         return $this->render('addCustomer.html.twig', array(

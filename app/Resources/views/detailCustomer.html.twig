@@ -27,7 +27,6 @@
                             <p class="card-text"> Fixe : {{ customer[0].numfixe }}</p>
                             <p class="card-text"> Portable : {{ customer[0].numport }}</p>
                             <p class="card-text"> Mail : <a href="mailto:{{ customer[0].mail }} ">{{ customer[0].mail }}</a> </p>
-                            <a class="btn btn-outline-primary" href=" {{ path('task_new', { 'id_customer' :  customer[0].id  }) }}" class="card-link">Ajouter une tache</a>
                             <a class="btn btn-outline-primary" href=" {{ path('addCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Modifier le client</a>
                             <a class="btn btn-danger" href=" {{ path('deleteCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Supprimer</a>
                         </div>
@@ -41,11 +40,39 @@
                             <h5 class="card-title"> Taches affectées  à {{ customer[0].nom }} {{ customer[0].prenom }} </h5>
                         </div>
                         <div class="card-body">
-                            <ul>
+
+                            <table class="table table-stripped">
+                                <thead>
+                                <tr>
+                                    <td> Taches </td>
+                                    <td> Date de création</td>
+                                    <td> Echéance</td>
+                                    <td> Etat </td>
+                                    <td> Action </td>
+
+
+                                </tr>
+
+                                </thead>
+
                                 {% for tache in taches %}
-                                     <li>{{ tache.tache|e }}</li>
+                                    <tr>
+                                        <td> {{ tache.tache|e }} </td>
+                                        <td>  {{ tache.datecreation |date("m/d/Y") }}</td>
+                                        <td> {{ tache.echeance | date("m/d/Y") }}</td>
+                                        <td>   {{ tache.etat }} </td>
+                                        <td><a href="{{ path('task_edit',{'id' : tache.id }) }}">Modifier</a> </td>
+
+                                    </tr>
+
                                 {% endfor %}
-                            </ul>
+
+
+                            </table>
+
+
+                            <a class="btn btn-outline-primary" href=" {{ path('task_new', { 'id_customer' :  customer[0].id  }) }}" class="card-link">Ajouter une tache</a>
+
                         </div>
                     </div>
                 </div>

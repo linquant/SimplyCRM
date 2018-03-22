@@ -34,9 +34,25 @@ class Task
      */
     private $customer;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datecreation;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $echeance;
+
+    /**
+     * @ORM\Column(type="string" , length=255)
+     */
+    private $etat;
     public function __construct($customer)
     {
         $this->setCustomer($customer);
+        $this->setDatecreation(new \Datetime());
+        $this->setEcheance(new \Datetime());
     }
 
     /**
@@ -72,6 +88,55 @@ class Task
     {
         return $this->tache;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDatecreation()
+    {
+        return $this->datecreation;
+    }
+
+    /**
+     * @param mixed $datecreation
+     */
+    public function setDatecreation($datecreation)
+    {
+        $this->datecreation = $datecreation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEcheance()
+    {
+        return $this->echeance;
+    }
+
+    /**
+     * @param mixed $echeance
+     */
+    public function setEcheance($echeance)
+    {
+        $this->echeance = $echeance;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEtat()
+    {
+        return $this->etat;
+    }
+
+    /**
+     * @param mixed $etat
+     */
+    public function setEtat($etat)
+    {
+        $this->etat = $etat;
+    }
+
 
     /**
      * Set customer.
