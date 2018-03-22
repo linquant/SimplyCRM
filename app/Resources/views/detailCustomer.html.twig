@@ -12,23 +12,44 @@
 
                 {% if customer[0] is defined %}
 
-                <div class="card   m-2" >
-                    <div class="card-header">
-                        <h5 class="card-title"> Détail du client {{ customer[0].nom }} {{ customer[0].prenom }} </h5>
-                    </div>
-                    <div class="card-body">
+<div class="row">
+                <div class="col-6">  
+                    <div class="card   m-2" >
+                        <div class="card-header">
+                            <h5 class="card-title"> Détail du client {{ customer[0].nom }} {{ customer[0].prenom }} </h5>
+                        </div>
+                        <div class="card-body">
 
-                        <p class="card-text"> Nom : {{ customer[0].nom }}</p>
-                        <p class="card-text"> Prénom : {{ customer[0].prenom }}</p>
-                        <p class="card-text"> Societe : {{ customer[0].societe }}</p>
-                        <p class="card-text"> Adresse : {{ customer[0].adresse }}</p>
-                        <p class="card-text"> Fixe : {{ customer[0].numfixe }}</p>
-                        <p class="card-text"> Portable : {{ customer[0].numport }}</p>
-                        <p class="card-text"> Mail : <a href="mailto:{{ customer[0].mail }} ">{{ customer[0].mail }}</a> </p>
-                        <a class="btn btn-outline-primary" href=" {{ path('addCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Modifier le client</a>
-                        <a class="btn btn-danger" href=" {{ path('deleteCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Supprimer</a>
+                            <p class="card-text"> Nom : {{ customer[0].nom }}</p>
+                            <p class="card-text"> Prénom : {{ customer[0].prenom }}</p>
+                            <p class="card-text"> Societe : {{ customer[0].societe }}</p>
+                            <p class="card-text"> Adresse : {{ customer[0].adresse }}</p>
+                            <p class="card-text"> Fixe : {{ customer[0].numfixe }}</p>
+                            <p class="card-text"> Portable : {{ customer[0].numport }}</p>
+                            <p class="card-text"> Mail : <a href="mailto:{{ customer[0].mail }} ">{{ customer[0].mail }}</a> </p>
+                            <a class="btn btn-outline-primary" href=" {{ path('task_new', { 'id_customer' :  customer[0].id  }) }}" class="card-link">Ajouter une tache</a>
+                            <a class="btn btn-outline-primary" href=" {{ path('addCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Modifier le client</a>
+                            <a class="btn btn-danger" href=" {{ path('deleteCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Supprimer</a>
+                        </div>
                     </div>
                 </div>
+
+                <div class="col-6">  
+
+                    <div class="card   m-2" >
+                        <div class="card-header">
+                            <h5 class="card-title"> Taches affectées  à {{ customer[0].nom }} {{ customer[0].prenom }} </h5>
+                        </div>
+                        <div class="card-body">
+                            <ul>
+                                {% for tache in taches %}
+                                     <li>{{ tache.tache|e }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+</div>            
             {% else %}
                 <div class="col-6 mx-auto ">
                 <p class="text-center text-danger font-weight-bold font-weight-bold bg-warning p-2 border border-danger">Le client n'existe pas !!!</p>

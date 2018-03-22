@@ -29,8 +29,7 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
 
     public function pagination($limit = 10, $offset, $user)
         {
-            // automatically knows to select Products
-            // the "p" is an alias you'll use in the rest of the query
+
             $qb = $this->createQueryBuilder('c')
                 ->where('c.user = :user')
                 ->setParameter('user', $user)
@@ -40,8 +39,7 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
 
             return $qb->execute();
 
-            // to get just one result:
-            // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+
         }
 
 

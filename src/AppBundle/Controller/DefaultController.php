@@ -11,6 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Entity\Customer;
 use AppBundle\Repository\CustomerRepository;
+
+use AppBundle\Entity\Task;
+use AppBundle\Repository\TaskRepository;
+
+
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class DefaultController extends Controller
@@ -107,6 +112,7 @@ class DefaultController extends Controller
 
 
 
+
         return $this->render('customer.html.twig' ,array(
                 'customer_liste' => $customer_liste,
                 'NbreDePage' => $nbrePagePagination,
@@ -121,10 +127,18 @@ class DefaultController extends Controller
      */
     public function detailCustomerAction($id){
 
-        $customer = $this->getDoctrine()->getRepository(Customer::class)->findBy(array('id' => $id));
+        $doctrine = $this->getDoctrine();
+        
+        $customer = $doctrine->getRepository(Customer::class)->findBy(array('id' => $id));
+        
+        $tasks= $doctrine->getRepository(Task::class)->listByCustomer($id);
+      
+        
+        return $this->render('detailCustomer.html.twig', array(
+                                                                'customer' => $customer,
+                                                                'taches' => $tasks,
 
-
-        return $this->render('detailCustomer.html.twig', array('customer' => $customer));
+                                                            ));
 
     }
 
