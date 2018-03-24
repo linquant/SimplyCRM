@@ -3,11 +3,22 @@
 {% block body %}
     <h1>Tasks list</h1>
 
-    <table>
+
+    <p>liste des etats</p>
+
+
+    <a href="{{ path('task_index', {'etat' : 'toutes' })}}"> Toutes les taches</a>
+
+    {% for etat in etats %}
+     <a href="{{ path('task_index', {'etat' : etat })}}">Taches {{ etat }}</a>
+ {% endfor %}
+    <table class="table table-stripped">
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Tache</th>
+                <th>Taches</th>
+                <th>Etat</th>
+                <th>Echeance</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -16,6 +27,8 @@
             <tr>
                 <td><a href="{{ path('task_show', { 'id': task.id }) }}">{{ task.id }}</a></td>
                 <td>{{ task.tache }}</td>
+                <td>{{ task.etat }}</td>
+                <td>{{ task.echeance |date('d,M,Y') }}</td>
                 <td>
                     <ul>
                         <li>

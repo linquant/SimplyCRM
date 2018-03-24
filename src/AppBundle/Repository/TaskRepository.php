@@ -23,6 +23,23 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
 
     }
 
+    public function taskDate($customer, $etat)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.customer = :customer')
+            ->andWhere(('t.etat = :etat'))
+            ->setParameter('customer', $customer)
+            ->setParameter('etat', $etat)
+            ->orderBy('t.echeance')
+            ->getQuery();
+
+        return $qb->execute();
+
+
+    }
+
+
+
     public function countTaskByUser($user)
     {
         $count = $this->createQueryBuilder('t')

@@ -18,19 +18,28 @@ class TaskController extends Controller
     /**
      * Lists all task entities.
      *
-     * @Route("/", name="task_index")
+     * @Route("/list/{etat}", name="task_index")
      * @Method("GET")
      */
-//    public function indexAction()
-//    {
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $tasks = $em->getRepository('AppBundle:Task')->findAll();
-//
-//        return $this->render('task/index.html.twig', array(
-//            'tasks' => $tasks,
-//        ));
-//    }
+    public function indexAction($etat)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        if ($etat == 'toutes') {
+            $tasks = $em->getRepository('AppBundle:Task')->findAll();
+
+        }
+        else
+        {
+            $tasks = $em->getRepository('AppBundle:Task')->TaskDate($this->getUser(), $etat);
+
+        }
+
+        return $this->render('task/index.html.twig', array(
+            'tasks' => $tasks,
+            'etats' => $this->getParameter('tache_etat'),
+        ));
+    }
 
     /**
      * Creates a new task entity.

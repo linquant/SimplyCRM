@@ -8,6 +8,9 @@
     <li class="nav-item">
         <a class="nav-link" href=" {{ path('addCustomer') }}">Ajouter un client</a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" href=" {{ path('task_index', { 'etat' :'toutes'}) }}">Toutes les taches</a>
+    </li>
 
 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
        <li class="nav-item">
