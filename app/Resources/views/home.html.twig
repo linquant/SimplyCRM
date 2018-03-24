@@ -28,7 +28,7 @@
                 <p class="card-text" > {{ nbreTask }} taches</p>
 
                 {% for key, nbreTask in nbreTaskEtat %}
-                <p class="card-text" > {{ nbreTask }} taches dans l'état :: {{ key }}</p>
+                <a href="{{ path('task_index', { 'etat' :  key })}}" class="card-text text-white" > {{ nbreTask }} taches dans l'état :: {{ key }}</a> <br>
                 {% endfor %}
             </div>
         </div>
