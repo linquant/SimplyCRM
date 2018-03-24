@@ -25,9 +25,11 @@
 
             <div class="card-body  ">
                 <h5 class="card-title">Nombre de taches dans Symply-CRM</h5>
-                <p class="card-text">XX taches</p>
-                <p class="card-text">Cooming-soon</p>
+                <p class="card-text" > {{ nbreTask }} taches</p>
 
+                {% for key, nbreTask in nbreTaskEtat %}
+                <p class="card-text" > {{ nbreTask }} taches dans l'état :: {{ key }}</p>
+                {% endfor %}
             </div>
         </div>
 

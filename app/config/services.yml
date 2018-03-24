@@ -3,6 +3,11 @@
 parameters:
     #parameter_name: value
     pagination_nbre_item : 10
+    tache_etat:
+        - Ouverte
+        - En cours
+        - Terminée
+
 
 services:
     # default configuration for services in *this* file

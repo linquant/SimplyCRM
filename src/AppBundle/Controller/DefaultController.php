@@ -31,9 +31,20 @@ class DefaultController extends Controller
             $this->redirectToRoute('login');
         }
 
-        $count = $this->getDoctrine()->getRepository(Customer::class)->nbreClient($this->getUser()->getId());
+        $doctrine = $this->getDoctrine();
 
-        return $this->render('home.html.twig', array ( 'nbreClient' => $count));
+        $countCustomer = $doctrine->getRepository(Customer::class)->nbreClient($this->getUser()->getId());
+        $countTask =  $doctrine->getRepository(Task::class)->countTaskByUser($this->getUser()->getId());
+        $countTaskByEtat = $doctrine->getRepository(Task::class)->countTaskByUserAndEtat($this->getUser()->getId(), $this->getParameter('tache_etat'));
+
+
+
+
+        return $this->render('home.html.twig',
+            array ( 'nbreClient' => $countCustomer,
+                    'nbreTask' => $countTask,
+                    'nbreTaskEtat' => $countTaskByEtat  ,
+        ));
     }
 
     /**

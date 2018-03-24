@@ -47,8 +47,11 @@ class User implements UserInterface
      */
     private $password;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Task", mappedBy="user")
+     */
+    private $task;
 
-    
      /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="user")
      */   
@@ -115,4 +118,38 @@ class User implements UserInterface
     //public function getSalt(){}
     
     public function eraseCredentials(){}
+
+    /**
+     * @return mixed
+     */
+    public function getTask()
+    {
+        return $this->task;
+    }
+
+    /**
+     * @param mixed $task
+     */
+    public function setTask($task)
+    {
+        $this->task = $task;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCustomer()
+    {
+        return $this->customer;
+    }
+
+    /**
+     * @param mixed $customer
+     */
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+    }
+
+
 }
