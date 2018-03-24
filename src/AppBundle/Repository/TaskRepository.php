@@ -22,4 +22,41 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
 
 
     }
+
+    public function countTaskByUser($user)
+    {
+        $count = $this->createQueryBuilder('t')
+            ->select('count(t)')
+            ->where('t.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $count;
+
+
+    }
+
+    public function countTaskByUserAndEtat($user, $etats)
+    {
+
+        foreach ($etats as $index => $etat) {
+
+            $count[$etat] = $this->createQueryBuilder('t')
+                ->select('count(t)')
+                ->where('t.user = :user')
+                ->andWhere(('t.etat = :etat'))
+                ->setParameter('user', $user)
+                ->setParameter('etat', $etat)
+                ->getQuery()
+                ->getSingleScalarResult();
+
+
+        }
+
+
+
+        return $count;
+
+    }
 }

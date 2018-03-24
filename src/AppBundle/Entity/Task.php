@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Entity\User as User;
 
 /**
  * Task
@@ -34,6 +35,12 @@ class Task
      */
     private $customer;
 
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="task")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     */
+    private $user;
     /**
      * @ORM\Column(type="datetime")
      */
@@ -48,11 +55,12 @@ class Task
      * @ORM\Column(type="string" , length=255)
      */
     private $etat;
-    public function __construct($customer)
+    public function __construct($customer, $user)
     {
         $this->setCustomer($customer);
         $this->setDatecreation(new \Datetime());
         $this->setEcheance(new \Datetime());
+        $this->setUser($user);
     }
 
     /**
@@ -161,4 +169,20 @@ class Task
     {
         return $this->customer;
     }
+
+    /**
+     * @return mixed
+     */
+
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
+
 }
