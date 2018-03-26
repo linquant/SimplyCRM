@@ -42,6 +42,18 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
 
         }
 
+    public  function listeCustomer($user){
+
+        $qb = $this->createQueryBuilder('c')
+            ->where('c.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return $qb->execute();
+
+
+    }
+
 
 
 }

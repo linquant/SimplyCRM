@@ -173,6 +173,36 @@ class DefaultController extends Controller
         return $this->redirectToRoute('Customer');
     }
 
+    /**
+     * @Route("/simply/export/", name="exportCustomer" )
+     */
+    public function export(){
+
+        //controler que le user est logué
+        if( !$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $this->redirectToRoute('login');
+        }
+
+        //réucpération des données en base avec l'id user
+
+        $listeCustomer = $this->getDoctrine()->getManager()->getRepository(Customer::class)->listeCustomer($this->getUser());
+
+        echo "<pre>";
+        print_r($listeCustomer);
+        echo "<pre>";
+
+        die();
+
+        //Ecriture des données dans un fichiers
+
+
+        //Enregistrement dans un fichiers temporaire
+
+
+        //rediriger vers le  téléchargement du fichiers
+    }
+
 
 
 }

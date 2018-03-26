@@ -23,6 +23,13 @@ class TaskController extends Controller
      */
     public function indexAction($etat)
     {
+
+        if( !$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            $this->redirectToRoute('login');
+        }
+
+
         $em = $this->getDoctrine()->getManager();
 
 
