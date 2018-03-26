@@ -25,15 +25,10 @@ class TaskController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        if ($etat == 'toutes') {
-            $tasks = $em->getRepository('AppBundle:Task')->findAll();
 
-        }
-        else
-        {
-            $tasks = $em->getRepository('AppBundle:Task')->TaskDate($this->getUser(), $etat);
+            $tasks = $em->getRepository('AppBundle:Task')->TaskDate($this->getUser()->getId(), $etat);
 
-        }
+
 
         return $this->render('task/index.html.twig', array(
             'tasks' => $tasks,
@@ -108,7 +103,7 @@ class TaskController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('detailCustomer', array('id' => 1));
+            return $this->redirectToRoute('detailCustomer', array('id' => $task->getCustomer()->getId()));
         }
 
 

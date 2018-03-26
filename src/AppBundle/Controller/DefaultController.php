@@ -61,9 +61,7 @@ class DefaultController extends Controller
             $repository = $this->getDoctrine()->getRepository(Customer::class);
             $customer = $repository->find($id);
 
-
         }
-
 
 
         $form = $this->createFormBuilder($customer)
@@ -82,6 +80,7 @@ class DefaultController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $customer = $form->getData();
+            $customer->setUser($this->getUser());
 
              $entityManager = $this->getDoctrine()->getManager();
              $entityManager->persist($customer);

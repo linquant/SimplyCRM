@@ -10,7 +10,17 @@
             <a  class ="btn btn-outline-primary" href=" {{ path('addCustomer') }} ">Ajouter Client</a>
 </div>
 
-                <table class="table m-5">
+                <table class="table table-striped mt-2">
+
+                    <thead class=" thead-dark">
+                        <tr>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th> Société</th>
+                            <th> Action</th>
+                        </tr>
+
+                    </thead>
 
                         {% for customer in customer_liste  %}
                     <tr>

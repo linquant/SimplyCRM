@@ -41,20 +41,21 @@
                         </div>
                         <div class="card-body">
 
-                            <table class="table table-stripped">
-                                <thead>
+                            <table class="table table-striped">
+
+
+                                <thead class="thead-dark">
                                 <tr>
                                     <td> Taches </td>
                                     <td> Date de création</td>
                                     <td> Echéance</td>
                                     <td> Etat </td>
-                                    <td> Action </td>
-
+                                   <td> Action </td>
 
                                 </tr>
 
                                 </thead>
-
+                                <tbody>
                                 {% for tache in taches %}
                                     <tr>
                                         <td> {{ tache.tache|e }} </td>
@@ -66,7 +67,7 @@
                                     </tr>
 
                                 {% endfor %}
-
+                                </tbody>
 
                             </table>
 
