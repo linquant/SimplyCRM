@@ -24,8 +24,8 @@
                             <p class="card-text"> Prénom : {{ customer[0].prenom }}</p>
                             <p class="card-text"> Societe : {{ customer[0].societe }}</p>
                             <p class="card-text"> Adresse : {{ customer[0].adresse }}</p>
-                            <p class="card-text"> Fixe : {{ customer[0].numfixe }}</p>
-                            <p class="card-text"> Portable : {{ customer[0].numport }}</p>
+                            <p class="card-text"> Fixe : 0{{ customer[0].numfixe }}</p>
+                            <p class="card-text"> Portable : 0{{ customer[0].numport }}</p>
                             <p class="card-text"> Mail : <a href="mailto:{{ customer[0].mail }} ">{{ customer[0].mail }}</a> </p>
                             <a class="btn btn-outline-primary" href=" {{ path('addCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Modifier le client</a>
                             <a class="btn btn-danger" href=" {{ path('deleteCustomer', { 'id' :  customer[0].id  }) }}" class="card-link">Supprimer</a>
