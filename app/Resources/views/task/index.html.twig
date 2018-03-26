@@ -1,17 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Tasks list</h1>
+    <h1>Liste des taches</h1>
 
 
-    <p>liste des etats</p>
 
-
-    <a href="{{ path('task_index', {'etat' : 'toutes' })}}"> Toutes les taches</a>
+    <div class="col-12 text-center mb-3">
+    ||<a href="{{ path('task_index', {'etat' : 'toutes' })}}"> Toutes les taches</a> ||
 
     {% for etat in etats %}
-     <a href="{{ path('task_index', {'etat' : etat })}}">Taches {{ etat }}</a>
+     <a href="{{ path('task_index', {'etat' : etat })}}">Taches {{ etat }}</a> ||
  {% endfor %}
+
+    </div>
     <table class="table table-stripped">
         <thead>
             <tr>

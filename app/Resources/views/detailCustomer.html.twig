@@ -46,11 +46,11 @@
 
                                 <thead class="thead-dark">
                                 <tr>
-                                    <td> Taches </td>
-                                    <td> Date de création</td>
-                                    <td> Echéance</td>
-                                    <td> Etat </td>
-                                   <td> Action </td>
+                                    <th> Taches </th>
+                                    <th> Date de création</th>
+                                    <th> Echéance</th>
+                                    <th> Etat </th>
+                                   <th> Action </th>
 
                                 </tr>
 
@@ -58,7 +58,7 @@
                                 <tbody>
                                 {% for tache in taches %}
                                     <tr>
-                                        <td> {{ tache.tache|e }} </td>
+                                        <td> {{ tache.tache |slice(0, 25) }} ... </td>
                                         <td>  {{ tache.datecreation |date("m/d/Y") }}</td>
                                         <td> {{ tache.echeance | date("m/d/Y") }}</td>
                                         <td>   {{ tache.etat }} </td>
