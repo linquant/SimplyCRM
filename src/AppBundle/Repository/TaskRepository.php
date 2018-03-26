@@ -16,6 +16,7 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder('t')
             ->where('t.customer = :customer')
             ->setParameter('customer', $customer)
+            ->orderBy('t.echeance')
             ->getQuery();
 
         return $qb->execute();
@@ -25,15 +26,26 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
 
     public function taskDate($customer, $etat)
     {
-        $qb = $this->createQueryBuilder('t')
-            ->where('t.customer = :customer')
-            ->andWhere(('t.etat = :etat'))
-            ->setParameter('customer', $customer)
-            ->setParameter('etat', $etat)
-            ->orderBy('t.echeance')
-            ->getQuery();
 
-        return $qb->execute();
+        if ($etat == 'toutes'){
+
+          $qb = $this->listByCustomer($customer);
+
+        }
+        else{
+
+
+            $qb = $this->createQueryBuilder('t')
+                ->where('t.customer = :customer')
+                ->andWhere(('t.etat = :etat'))
+                ->setParameter('customer', $customer)
+                ->setParameter('etat', $etat)
+                ->orderBy('t.echeance')
+                ->getQuery()->execute();
+
+
+        }
+        return $qb;
 
 
     }
