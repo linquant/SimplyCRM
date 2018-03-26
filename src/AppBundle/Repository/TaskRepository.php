@@ -31,7 +31,7 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
         if ($etat == 'toutes'){
 
             $qb = $this->createQueryBuilder('t')
-                ->where('t.usergit = :user')
+                ->where('t.user = :user')
                 ->setParameter('user', $user)
                 ->orderBy('t.echeance')
                 ->getQuery();
