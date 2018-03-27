@@ -183,26 +183,69 @@ class DefaultController extends Controller
         {
             $this->redirectToRoute('login');
         }
-
         //réucpération des données en base avec l'id user
 
-        $listeCustomer = $this->getDoctrine()->getManager()->getRepository(Customer::class)->listeCustomer($this->getUser());
+        $listeCustomer = $this->getDoctrine()->getRepository(Customer::class)->listeCustomer($this->getUser());
 
-        echo "<pre>";
-        print_r($listeCustomer);
-        echo "<pre>";
+        //Création d'un fichier temporaire'
+        $uniqname = uniqid(rand(), true).'.csv';
+        $temp_file = fopen("/var/www/simply-crm/web/export/".$uniqname, "a");
 
-        die();
+        // Insertion des données dans le fichier
+        $data = null ;
+        foreach ($listeCustomer as $index => $item) {
+            $data = null ;
 
-        //Ecriture des données dans un fichiers
+                $data .= $item->getnom().',';
 
+                $data .= addcslashes($item->getprenom(),"\n\r").',';
+                $data .= addcslashes($item->getsociete(),"\n\r").',';
+                $data .= addcslashes($item->getadresse(),"\n\r").',';
+                $data .= addcslashes($item->getnumfixe(),"\n\r").',';
+                $data .= addcslashes($item->getnumport(),"\n\r").',';
+                $data .= addcslashes($item->getmail(),"\n\r")."\n";
 
-        //Enregistrement dans un fichiers temporaire
+            fwrite($temp_file, $data);
 
+        }
+        //génération de l'URL de téléchargement
+        $lien ="/export/".$uniqname;
 
-        //rediriger vers le  téléchargement du fichiers
+        //fermeture du fichiers
+        fclose($temp_file);
+
+       //Supprime tous les fichiers de plus d'une heure.
+       $this->deleteOldCSV('export');
+
+        return $this->render('export.html.twig', array( 'lien' => $lien));
     }
 
+    /**
+     *  Supprime tous les Fichiers de plus d'une heure // Cron task du pauvre :)
+     * @param $directory
+     * @return string
+     */
+    private function deleteOldCSV($directory){
 
+
+        $date = new \DateTime();
+
+//        Parcours tous les fichiers du répertoire
+        $handler = opendir($directory);
+        while ($file = readdir($handler)) {
+            if ($file != '.' && $file != '..' && $file != "robots.txt" && $file != ".htaccess"){
+                $currentModified = filectime($directory."/".$file);
+
+//                Si la date est inférieur au timestamp - 1 h on supprimer le fichiers
+                if ($currentModified < $date->getTimestamp() - 3600){
+
+                    unlink($directory."/".$file);
+                }
+
+            }
+        }
+        closedir($handler);
+
+    }
 
 }
