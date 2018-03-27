@@ -189,7 +189,7 @@ class DefaultController extends Controller
 
         //Création d'un fichier temporaire'
         $uniqname = uniqid(rand(), true).'.csv';
-        $temp_file = fopen("/var/www/simply-crm/web/export/".$uniqname, "a");
+        $temp_file = fopen($_SERVER["DOCUMENT_ROOT"]."/export/".$uniqname, "a");
 
         // Insertion des données dans le fichier
         $data = null ;
