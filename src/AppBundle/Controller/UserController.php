@@ -9,7 +9,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-
 class UserController extends Controller
 {
 
@@ -34,10 +33,10 @@ class UserController extends Controller
     * @Route("/creation-compte", name="createaccount")
     */
 
-    public function createAccountAction(Request $request ,  UserPasswordEncoderInterface $passwordEncoder)
+    public function createAccountAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
 
-    	   // 1) build the form
+           // 1) build the form
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 

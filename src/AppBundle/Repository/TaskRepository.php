@@ -10,7 +10,6 @@ namespace AppBundle\Repository;
  */
 class TaskRepository extends \Doctrine\ORM\EntityRepository
 {
-
     public function listByCustomer($customer)
     {
         $qb = $this->createQueryBuilder('t')
@@ -20,29 +19,17 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
             ->getQuery();
 
         return $qb->execute();
-
-
     }
 
     public function taskDate($user, $etat)
     {
-
-
-        if ($etat == 'toutes'){
-
+        if ($etat == 'toutes') {
             $qb = $this->createQueryBuilder('t')
                 ->where('t.user = :user')
                 ->setParameter('user', $user)
                 ->orderBy('t.echeance')
                 ->getQuery();
-
-
-
-        }
-        else{
-
-
-
+        } else {
             $qb = $this->createQueryBuilder('t')
                 ->where('t.user = :user')
                 ->andWhere(('t.etat = :etat'))
@@ -50,12 +37,8 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('etat', $etat)
                 ->orderBy('t.echeance')
                 ->getQuery();
-
-
         }
         return $qb->execute();
-
-
     }
 
 
@@ -70,15 +53,11 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
             ->getSingleScalarResult();
 
         return $count;
-
-
     }
 
     public function countTaskByUserAndEtat($user, $etats)
     {
-
         foreach ($etats as $index => $etat) {
-
             $count[$etat] = $this->createQueryBuilder('t')
                 ->select('count(t)')
                 ->where('t.user = :user')
@@ -87,13 +66,10 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
                 ->setParameter('etat', $etat)
                 ->getQuery()
                 ->getSingleScalarResult();
-
-
         }
 
 
 
         return $count;
-
     }
 }

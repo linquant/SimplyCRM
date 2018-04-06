@@ -27,7 +27,7 @@ class TaskType extends AbstractType
         }
         
 
-        $builder->add('tache')->add('etat',ChoiceType::class, array(
+        $builder->add('tache')->add('etat', ChoiceType::class, array(
         'choices'  => $options['tache_etat']))->add('echeance');
     }/**
      * {@inheritdoc}
@@ -39,7 +39,6 @@ class TaskType extends AbstractType
         ));
 
         $resolver->setRequired('tache_etat');
-
     }
 
     /**
@@ -49,6 +48,4 @@ class TaskType extends AbstractType
     {
         return 'appbundle_task';
     }
-
-
 }

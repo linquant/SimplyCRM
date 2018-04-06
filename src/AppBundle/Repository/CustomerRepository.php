@@ -10,50 +10,39 @@ namespace AppBundle\Repository;
  */
 class CustomerRepository extends \Doctrine\ORM\EntityRepository
 {
-
-
-            public function nbreClient($user)
-            {
-                $count = $this->createQueryBuilder('c')
+    public function nbreClient($user)
+    {
+        $count = $this->createQueryBuilder('c')
                     ->select('COUNT(c)')
                     ->where('c.user = :user')
                     ->setParameter('user', $user)
                     ->getQuery()
                     ->getSingleScalarResult();
 
-              ;
-                return $count;
-
-            }
+        ;
+        return $count;
+    }
 
 
     public function pagination($limit = 10, $offset, $user)
-        {
-
-            $qb = $this->createQueryBuilder('c')
+    {
+        $qb = $this->createQueryBuilder('c')
                 ->where('c.user = :user')
                 ->setParameter('user', $user)
-                ->setFirstResult( $offset )
-                ->setMaxResults( $limit )
+                ->setFirstResult($offset)
+                ->setMaxResults($limit)
                 ->getQuery();
 
-            return $qb->execute();
+        return $qb->execute();
+    }
 
-
-        }
-
-    public  function listeCustomer($user){
-
+    public function listeCustomer($user)
+    {
         $qb = $this->createQueryBuilder('c')
             ->where('c.user = :user')
             ->setParameter('user', $user)
             ->getQuery();
 
         return $qb->execute();
-
-
     }
-
-
-
 }

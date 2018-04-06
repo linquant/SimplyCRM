@@ -6,7 +6,8 @@ use AppBundle\Entity\Task;
 use AppBundle\Entity\Customer;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Task controller.
@@ -23,9 +24,7 @@ class TaskController extends Controller
      */
     public function indexAction($etat)
     {
-
-        if( !$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'))
-        {
+        if (!$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
             $this->redirectToRoute('login');
         }
 
@@ -33,7 +32,7 @@ class TaskController extends Controller
         $em = $this->getDoctrine()->getManager();
 
 
-            $tasks = $em->getRepository('AppBundle:Task')->TaskDate($this->getUser()->getId(), $etat);
+        $tasks = $em->getRepository('AppBundle:Task')->TaskDate($this->getUser()->getId(), $etat);
 
 
 
@@ -51,12 +50,12 @@ class TaskController extends Controller
      */
     public function newAction(Request $request, $id_customer)
     {
-       $customer = $this->getDoctrine()->getRepository(Customer::class)->find($id_customer);
+        $customer = $this->getDoctrine()->getRepository(Customer::class)->find($id_customer);
 
         //TODO Vérifier que le user est bien propriétaire du customer
 
-        $task = new Task($customer , $this->getUser());
-        $form = $this->createForm('AppBundle\Form\TaskType', $task ,  array(
+        $task = new Task($customer, $this->getUser());
+        $form = $this->createForm('AppBundle\Form\TaskType', $task, array(
             'tache_etat' => $this->getParameter('tache_etat'),
         ));
         $form->handleRequest($request);
@@ -99,9 +98,8 @@ class TaskController extends Controller
      */
     public function editAction(Request $request, Task $task)
     {
-
         $deleteForm = $this->createDeleteForm($task);
-        $editForm = $this->createForm('AppBundle\Form\TaskType', $task ,  array(
+        $editForm = $this->createForm('AppBundle\Form\TaskType', $task, array(
             'tache_etat' => $this->getParameter('tache_etat'),
         ));
         $editForm->handleRequest($request);
@@ -128,7 +126,7 @@ class TaskController extends Controller
      * @Route("/{id}", name="task_delete")
      * @Method("DELETE")
      */
-    public function deleteAction(Request $request, Task $task )
+    public function deleteAction(Request $request, Task $task)
     {
         $form = $this->createDeleteForm($task);
         $form->handleRequest($request);

@@ -34,7 +34,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * 
+     *
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
@@ -52,16 +52,16 @@ class User implements UserInterface
      */
     private $task;
 
-     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="user")
-     */   
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Customer", mappedBy="user")
+    */
     private $customer;
 
     // other properties and methods
 
-    public function getId(){
-
-            return $this->id;
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getEmail()
@@ -111,13 +111,15 @@ class User implements UserInterface
         return null;
     }
 
-    public function getRoles(){
-
+    public function getRoles()
+    {
         return array("ROLE_USER");
     }
     //public function getSalt(){}
     
-    public function eraseCredentials(){}
+    public function eraseCredentials()
+    {
+    }
 
     /**
      * @return mixed
@@ -150,6 +152,4 @@ class User implements UserInterface
     {
         $this->customer = $customer;
     }
-
-
 }

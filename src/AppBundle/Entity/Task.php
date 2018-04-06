@@ -182,7 +182,4 @@ class Task
     {
         $this->user = $user;
     }
-
-
-
 }

@@ -25,9 +25,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-
-        if( !$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'))
-        {
+        if (!$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
             $this->redirectToRoute('login');
         }
 
@@ -40,27 +38,27 @@ class DefaultController extends Controller
 
 
 
-        return $this->render('home.html.twig',
-            array ( 'nbreClient' => $countCustomer,
+        return $this->render(
+            'home.html.twig',
+            array( 'nbreClient' => $countCustomer,
                     'nbreTask' => $countTask,
                     'nbreTaskEtat' => $countTaskByEtat  ,
-        ));
+        )
+        );
     }
 
     /**
      * @Route("/simply/add/client/{id}", name="addCustomer" , requirements={"page"="\d+"})
      */
-    public function addCustomerAction(Request $request,$id = null){
-
+    public function addCustomerAction(Request $request, $id = null)
+    {
         $customer = new Customer();
 
 
         //Si l'id existe, on charge le client dans l'objet
-        if (!is_null($id)){
-
+        if (!is_null($id)) {
             $repository = $this->getDoctrine()->getRepository(Customer::class);
             $customer = $repository->find($id);
-
         }
 
 
@@ -78,15 +76,14 @@ class DefaultController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $customer = $form->getData();
             $customer->setUser($this->getUser());
 
-             $entityManager = $this->getDoctrine()->getManager();
-             $entityManager->persist($customer);
-             $entityManager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($customer);
+            $entityManager->flush();
 
-            return $this->redirectToRoute( 'detailCustomer', array('id' => $customer->getId()));
+            return $this->redirectToRoute('detailCustomer', array('id' => $customer->getId()));
         }
 
         return $this->render('addCustomer.html.twig', array(
@@ -96,7 +93,8 @@ class DefaultController extends Controller
     /**
      * @Route("/simply/list/client/{page}", name="Customer" , requirements={"page"="\d+"} , defaults={"page": 1},)
      */
-    public function customerAction($page){
+    public function customerAction($page)
+    {
 
 
        //GEstion de la pagination
@@ -107,8 +105,8 @@ class DefaultController extends Controller
 
         $nbrePagePagination = ceil($nbreCustomer/$nbreParPage);
 
-        $page =  (($page == 0 ) ? 1 : $page);
-        $page =  (($page > $nbrePagePagination ) ? $nbrePagePagination : $page);
+        $page =  (($page == 0) ? 1 : $page);
+        $page =  (($page > $nbrePagePagination) ? $nbrePagePagination : $page);
 
         $offset = ($page-1)*$nbreParPage;
         $offset =  (($offset == -10) ? 10 : $offset);
@@ -116,25 +114,24 @@ class DefaultController extends Controller
         //GEstion pagination Fin
 
 
-       $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->pagination($nbreParPage,$offset,$this->getUser()->getId());
+        $customer_liste = $this->getDoctrine()->getRepository(Customer::class)->pagination($nbreParPage, $offset, $this->getUser()->getId());
 
 
 
 
-        return $this->render('customer.html.twig' ,array(
+        return $this->render('customer.html.twig', array(
                 'customer_liste' => $customer_liste,
                 'NbreDePage' => $nbrePagePagination,
 
 
         ));
-
     }
 
     /**
      * @Route("/simply/client/{id}", name="detailCustomer" , requirements={"id"="\d+"})
      */
-    public function detailCustomerAction($id){
-
+    public function detailCustomerAction($id)
+    {
         $doctrine = $this->getDoctrine();
         
         $customer = $doctrine->getRepository(Customer::class)->findBy(array('id' => $id));
@@ -147,13 +144,13 @@ class DefaultController extends Controller
                                                                 'taches' => $tasks,
 
                                                             ));
-
     }
 
     /**
      * @Route("/simply/delete/client/{id}", name="deleteCustomer" , requirements={"id"="\d+"})
      */
-    public function deleteCustomerAction($id){
+    public function deleteCustomerAction($id)
+    {
 
 
         //TODO mettre une alerte pour l'utilisaaateur // message = suppresion est définitive
@@ -176,11 +173,11 @@ class DefaultController extends Controller
     /**
      * @Route("/simply/export/", name="exportCustomer" )
      */
-    public function export(){
+    public function export()
+    {
 
         //controler que le user est logué
-        if( !$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY'))
-        {
+        if (!$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
             $this->redirectToRoute('login');
         }
         //réucpération des données en base avec l'id user
@@ -196,17 +193,16 @@ class DefaultController extends Controller
         foreach ($listeCustomer as $index => $item) {
             $data = null ;
 
-                $data .= $item->getnom().',';
+            $data .= $item->getnom().',';
 
-                $data .= addcslashes($item->getprenom(),"\n\r").',';
-                $data .= addcslashes($item->getsociete(),"\n\r").',';
-                $data .= addcslashes($item->getadresse(),"\n\r").',';
-                $data .= addcslashes($item->getnumfixe(),"\n\r").',';
-                $data .= addcslashes($item->getnumport(),"\n\r").',';
-                $data .= addcslashes($item->getmail(),"\n\r")."\n";
+            $data .= addcslashes($item->getprenom(), "\n\r").',';
+            $data .= addcslashes($item->getsociete(), "\n\r").',';
+            $data .= addcslashes($item->getadresse(), "\n\r").',';
+            $data .= addcslashes($item->getnumfixe(), "\n\r").',';
+            $data .= addcslashes($item->getnumport(), "\n\r").',';
+            $data .= addcslashes($item->getmail(), "\n\r")."\n";
 
             fwrite($temp_file, $data);
-
         }
         //génération de l'URL de téléchargement
         $lien ="/export/".$uniqname;
@@ -214,8 +210,8 @@ class DefaultController extends Controller
         //fermeture du fichiers
         fclose($temp_file);
 
-       //Supprime tous les fichiers de plus d'une heure.
-       $this->deleteOldCSV('export');
+        //Supprime tous les fichiers de plus d'une heure.
+        $this->deleteOldCSV('export');
 
         return $this->render('export.html.twig', array( 'lien' => $lien));
     }
@@ -225,27 +221,22 @@ class DefaultController extends Controller
      * @param $directory
      * @return string
      */
-    private function deleteOldCSV($directory){
-
-
+    private function deleteOldCSV($directory)
+    {
         $date = new \DateTime();
 
 //        Parcours tous les fichiers du répertoire
         $handler = opendir($directory);
         while ($file = readdir($handler)) {
-            if ($file != '.' && $file != '..' && $file != "robots.txt" && $file != ".htaccess"){
+            if ($file != '.' && $file != '..' && $file != "robots.txt" && $file != ".htaccess") {
                 $currentModified = filectime($directory."/".$file);
 
 //                Si la date est inférieur au timestamp - 1 h on supprimer le fichiers
-                if ($currentModified < $date->getTimestamp() - 3600){
-
+                if ($currentModified < $date->getTimestamp() - 3600) {
                     unlink($directory."/".$file);
                 }
-
             }
         }
         closedir($handler);
-
     }
-
 }

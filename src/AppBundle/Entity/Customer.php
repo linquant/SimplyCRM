@@ -75,12 +75,12 @@ class Customer
      */
     private $mail;
 
-        /**
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="customer")
      * @ORM\JoinColumn(nullable=true)
      */
 
-    private $user;    
+    private $user;
 
     /**
      * Get id
@@ -271,8 +271,4 @@ class Customer
     {
         return $this->user;
     }
-
-
-
-
 }
