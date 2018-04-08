@@ -33,8 +33,8 @@ class Task
      * @Assert\Length(
      *      min = 1,
      *      max = 255,
-     *      minMessage = "Your first name must be at least {{ limit }} characters long",
-     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     *      minMessage = "be at least {{ limit }} characters long",
+     *      maxMessage = " be longer than {{ limit }} characters"
      * )
      */
     private $tache;
