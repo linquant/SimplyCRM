@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\DependencyInjection\Compiler\CheckExceptionOnInvalidReferenceBehaviorPass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -17,6 +18,8 @@ use AppBundle\Repository\TaskRepository;
 
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
+use AppBundle\Service\Export;
 
 class DefaultController extends Controller
 {
@@ -171,47 +174,21 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/simply/export/", name="exportCustomer" )
+     * @Route("/simply/export/customer", name="exportCustomer" )
      */
-    public function export()
+    public function export(Export $export)
     {
 
-        //controler que le user est logué
-        if (!$this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY')) {
-            $this->redirectToRoute('login');
-        }
+
+
         //réucpération des données en base avec l'id user
 
         $listeCustomer = $this->getDoctrine()->getRepository(Customer::class)->listeCustomer($this->getUser());
 
-        //Création d'un fichier temporaire'
-        $uniqname = uniqid(rand(), true).'.csv';
-        $temp_file = fopen($_SERVER["DOCUMENT_ROOT"]."/export/".$uniqname, "a");
-
-        // Insertion des données dans le fichier
-        $data = null ;
-        foreach ($listeCustomer as $index => $item) {
-            $data = null ;
-
-            $data .= $item->getnom().',';
-
-            $data .= addcslashes($item->getprenom(), "\n\r").',';
-            $data .= addcslashes($item->getsociete(), "\n\r").',';
-            $data .= addcslashes($item->getadresse(), "\n\r").',';
-            $data .= addcslashes($item->getnumfixe(), "\n\r").',';
-            $data .= addcslashes($item->getnumport(), "\n\r").',';
-            $data .= addcslashes($item->getmail(), "\n\r")."\n";
-
-            fwrite($temp_file, $data);
-        }
-        //génération de l'URL de téléchargement
-        $lien ="/export/".$uniqname;
-
-        //fermeture du fichiers
-        fclose($temp_file);
+        $lien = $export->Export($listeCustomer);
 
         //Supprime tous les fichiers de plus d'une heure.
-        $this->deleteOldCSV('export');
+        $export->DeleteOldFile('export');
 
         return $this->render('export.html.twig', array( 'lien' => $lien));
     }
@@ -221,22 +198,4 @@ class DefaultController extends Controller
      * @param $directory
      * @return string
      */
-    private function deleteOldCSV($directory)
-    {
-        $date = new \DateTime();
-
-//        Parcours tous les fichiers du répertoire
-        $handler = opendir($directory);
-        while ($file = readdir($handler)) {
-            if ($file != '.' && $file != '..' && $file != "robots.txt" && $file != ".htaccess") {
-                $currentModified = filectime($directory."/".$file);
-
-//                Si la date est inférieur au timestamp - 1 h on supprimer le fichiers
-                if ($currentModified < $date->getTimestamp() - 3600) {
-                    unlink($directory."/".$file);
-                }
-            }
-        }
-        closedir($handler);
-    }
 }
