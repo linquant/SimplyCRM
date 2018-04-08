@@ -55,10 +55,15 @@ class TaskController extends Controller
         //TODO Vérifier que le user est bien propriétaire du customer
 
         $task = new Task($customer, $this->getUser());
+
         $form = $this->createForm('AppBundle\Form\TaskType', $task, array(
             'tache_etat' => $this->getParameter('tache_etat'),
         ));
+
+
         $form->handleRequest($request);
+
+
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();

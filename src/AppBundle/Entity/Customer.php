@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Customer
@@ -30,6 +31,10 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="nom", type="string", length=255)
+     *
+     * @Assert\NotNull()
+     * @Assert\Type("string")
+     * @Assert\length(max = 255 )
      */
     private $nom;
 
@@ -37,6 +42,9 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="prenom", type="string", length=255, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\length(max = 255 )
      */
     private $prenom;
 
@@ -44,6 +52,9 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="societe", type="string", length=255, nullable=true)
+     *
+     * @Assert\Type("string")
+     * @Assert\length(max = 255 )
      */
     private $societe;
 
@@ -51,6 +62,8 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="adresse", type="text", nullable=true)
+     *
+     * @Assert\Type("string")
      */
     private $adresse;
 
@@ -58,6 +71,12 @@ class Customer
      * @var int
      *
      * @ORM\Column(name="numfixe", type="integer", nullable=true)
+     *
+     @Assert\Regex(
+     *     pattern="#^[1-68][0-9]{8}$#",
+     *     match=true,
+     *     message="Error phone number"
+     * )
      */
     private $numfixe;
 
@@ -65,6 +84,12 @@ class Customer
      * @var int
      *
      * @ORM\Column(name="numport", type="integer", nullable=true)
+     *
+     * @Assert\Regex(
+     *     pattern="#^[1-68][0-9]{8}$#",
+     *     match=true,
+     *     message="Error phone number"
+     * )
      */
     private $numport;
 
@@ -72,12 +97,19 @@ class Customer
      * @var string
      *
      * @ORM\Column(name="mail", type="string", length=255, nullable=true)
+    *
+     *  @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email.",
+     *     checkMX = true
+     * )
      */
     private $mail;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="customer")
      * @ORM\JoinColumn(nullable=true)
+    *
+     *
      */
 
     private $user;

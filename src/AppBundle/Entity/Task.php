@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use AppBundle\Entity\User as User;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Task
@@ -19,6 +20,8 @@ class Task
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     *
+     *
      */
     private $id;
 
@@ -26,6 +29,13 @@ class Task
      * @var string
      *
      * @ORM\Column(name="tache", type="string", length=255)
+     *
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 255,
+     *      minMessage = "Your first name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $tache;
 
@@ -48,11 +58,15 @@ class Task
 
     /**
      * @ORM\Column(type="datetime")
+     *
+     *
      */
     private $echeance;
 
     /**
      * @ORM\Column(type="string" , length=255)
+     *
+     * @assert\length( max = 255)
      */
     private $etat;
     public function __construct($customer, $user)

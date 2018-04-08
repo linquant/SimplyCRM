@@ -19,7 +19,6 @@ class TaskType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-
 //        Permet de changer les index numériques en index associatifs pour la gestion du menu déroualant
         foreach ($options['tache_etat'] as $index => $option) {
             $options['tache_etat'][$option] = $option;
@@ -29,7 +28,8 @@ class TaskType extends AbstractType
 
         $builder->add('tache')->add('etat', ChoiceType::class, array(
         'choices'  => $options['tache_etat']))->add('echeance');
-    }/**
+    }
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
