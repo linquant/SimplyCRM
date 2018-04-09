@@ -185,6 +185,8 @@ class DefaultController extends Controller
 
         $listeCustomer = $this->getDoctrine()->getRepository(Customer::class)->listeCustomer($this->getUser());
 
+
+        //Utilise le service pour gerer l'export
         $lien = $export->Export($listeCustomer);
 
         //Supprime tous les fichiers de plus d'une heure.
@@ -192,10 +194,4 @@ class DefaultController extends Controller
 
         return $this->render('export.html.twig', array( 'lien' => $lien));
     }
-
-    /**
-     *  Supprime tous les Fichiers de plus d'une heure // Cron task du pauvre :)
-     * @param $directory
-     * @return string
-     */
 }
