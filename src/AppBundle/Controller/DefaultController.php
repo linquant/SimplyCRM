@@ -187,10 +187,8 @@ class DefaultController extends Controller
 
 
         //Utilise le service pour gerer l'export
-        $lien = $export->Export($listeCustomer);
+        $lien = $export->Export($listeCustomer, 'export');
 
-        //Supprime tous les fichiers de plus d'une heure.
-        $export->DeleteOldFile('export');
 
         return $this->render('export.html.twig', array( 'lien' => $lien));
     }

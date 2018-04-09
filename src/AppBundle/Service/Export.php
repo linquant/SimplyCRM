@@ -3,8 +3,12 @@ namespace AppBundle\Service;
 
 class Export
 {
-    public function Export(array $list)
+    const DELAI = 3600;
+
+    public function Export(array $list, string $directory)
     {
+
+
 
         //Création d'un fichier temporaire'
         $uniqname = uniqid(rand(), true) . '.csv';
@@ -46,6 +50,8 @@ class Export
         //fermeture du fichiers
         fclose($temp_file);
 
+        $this->DeleteOldFile($directory);
+
         return $lien;
     }
 
@@ -66,7 +72,7 @@ class Export
                 $currentModified = filectime($directory . "/" . $file);
 
 //                Si la date est inférieur au timestamp - 1 h on supprimer le fichiers
-                if ($currentModified < $date->getTimestamp() - 3600) {
+                if ($currentModified < $date->getTimestamp() - self::DELAI) {
                     unlink($directory . "/" . $file);
                 }
             }

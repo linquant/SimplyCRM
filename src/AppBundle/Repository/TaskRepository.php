@@ -72,4 +72,14 @@ class TaskRepository extends \Doctrine\ORM\EntityRepository
 
         return $count;
     }
+
+    public function listeTask($user)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        return $qb->execute();
+    }
 }

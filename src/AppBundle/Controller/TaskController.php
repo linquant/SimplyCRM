@@ -9,14 +9,35 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Service\Export;
 
 /**
  * Task controller.
  *
- * @Route("task")
+ * @Route("simply/task")
  */
 class TaskController extends Controller
 {
+
+
+    /**
+     * @Route("/export", name="exportTask" )
+     */
+    public function export(Export $export)
+    {
+
+
+        //réucpération des données en base avec l'id user
+
+        $listeTask = $this->getDoctrine()->getRepository(Task::class)->listeTask($this->getUser());
+
+
+        $lien = $export->Export($listeTask, 'export');
+
+
+        return $this->render('export.html.twig', array( 'lien' => $lien));
+    }
+
     /**
      * Lists all task entities.
      *
@@ -162,49 +183,5 @@ class TaskController extends Controller
             ->setMethod('DELETE')
             ->getForm()
         ;
-    }
-
-    /**
-     * @Route("/simply/export/task", name="exportTask" )
-     */
-    public function export()
-    {
-
-
-        //réucpération des données en base avec l'id user
-
-        //TODO Creer la methode listetask
-        $listeTask = $this->getDoctrine()->getRepository(Task::class)->listeTask($this->getUser());
-
-        //Création d'un fichier temporaire'
-        $uniqname = uniqid(rand(), true).'.csv';
-        $temp_file = fopen($_SERVER["DOCUMENT_ROOT"]."/export/".$uniqname, "a");
-
-        // Insertion des données dans le fichier
-        $data = null ;
-        foreach ($listelis as $index => $item) {
-            $data = null ;
-
-            $data .= $item->getnom().',';
-
-            $data .= addcslashes($item->getprenom(), "\n\r").',';
-            $data .= addcslashes($item->getsociete(), "\n\r").',';
-            $data .= addcslashes($item->getadresse(), "\n\r").',';
-            $data .= addcslashes($item->getnumfixe(), "\n\r").',';
-            $data .= addcslashes($item->getnumport(), "\n\r").',';
-            $data .= addcslashes($item->getmail(), "\n\r")."\n";
-
-            fwrite($temp_file, $data);
-        }
-        //génération de l'URL de téléchargement
-        $lien ="/export/".$uniqname;
-
-        //fermeture du fichiers
-        fclose($temp_file);
-
-        //Supprime tous les fichiers de plus d'une heure.
-        $this->deleteOldCSV('export');
-
-        return $this->render('export.html.twig', array( 'lien' => $lien));
     }
 }
