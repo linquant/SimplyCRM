@@ -29,11 +29,20 @@ class Export
             //Boucle sur les getters disponible dans la classe
             foreach ($getters as $index => $getter) {
 
-                //On s'assure que les getters retourne des String ou numérique
-                if (is_string($item->$getter()) or is_numeric($item->$getter())) {
 
-                    //Ecriture dans a variable de stockage
-                    $data .= addcslashes($item->$getter(), "\n\r").',';
+
+                //On s'assure que les getters retourne des String ou numérique
+                if (is_string($item->$getter()) or is_numeric($item->$getter()) or is_a($item->$getter(),'Datetime')) {
+
+                    if (is_a($item->$getter(),'Datetime')){
+
+                        $data .= addcslashes($item->$getter()->format('d-m-Y'), "\n\r").',';
+
+                    }else{
+                        //Ecriture dans a variable de stockage
+                        $data .= addcslashes($item->$getter(), "\n\r").',';
+                    }
+
                 }
             }
 
